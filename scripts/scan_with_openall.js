@@ -60,8 +60,9 @@ function performOpenAllScan(callback) {
 	console.log('Performing Scan with OpenAll');
 	deviceScanner.findAllDevices(connectedDevices)
 	.then(function(deviceTypes) {
-		console.log('Scan Results');
-		console.log(JSON.stringify(deviceTypes, null, 2));
+		console.log('Finished Scanning with OpenAll');
+		// console.log('Scan Results');
+		// console.log(JSON.stringify(deviceTypes, null, 2));
 		callback();
 	}, function(err) {
 		console.log('Scanning Error', err);
