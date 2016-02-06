@@ -35,7 +35,7 @@ function connectToLJDevice(callback) {
 	device = new device_curator.device();
 	device.open('LJM_dtT7','LJM_ctUSB', 'LJM_idANY')
 	.then(function(dev) {
-		console.log('Opened a T7');
+		console.log('Opened a T7', device.savedAttributes.serialNumber);
 		connectedDevices.push(device);
 		callback();
 	}, function(err) {
@@ -56,7 +56,7 @@ function closeLJDevice(callback) {
 }
 
 function performOpenAllScan(callback) {
-// Perform Scan
+	// Perform Scan
 	console.log('Performing Scan with OpenAll');
 	deviceScanner.findAllDevices(connectedDevices)
 	.then(function(deviceTypes) {
