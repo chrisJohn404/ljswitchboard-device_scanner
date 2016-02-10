@@ -13,7 +13,7 @@ var testScanResults = test_util.testScanResults;
 var deviceScanner;
 var device;
 
-var GLOBAL_TEST_EXPECTED_DEVICE_LIST = true;
+var GLOBAL_TEST_EXPECTED_DEVICE_LIST = false;
 var GLOBAL_EXPECTED_DEVICE_TYPES = {
 	'T7': {
 		'devices': [{
@@ -147,7 +147,7 @@ exports.tests = {
 			device = new device_curator.device();
 			device.open(dA.deviceType, dA.connectionTypes[0].str, dA.serialNumber)
 			.then(function(res) {
-				if(false) {
+				if(true) {
 					console.log(
 						"  - Opened T7:",
 						res.productType,
@@ -186,13 +186,27 @@ exports.tests = {
 		.then(function(deviceTypes) {
 			var testStatus = testScanResults(deviceTypes, expDeviceTypes, test, {'test': GLOBAL_TEST_EXPECTED_DEVICE_LIST, 'debug': false});
 			test.ok(testStatus, 'Unexpected test result');
-			var dA = deviceTypes[0].devices[0];
+			
 
-			test.strictEqual(
-				dA.serialNumber,
-				device.savedAttributes.serialNumber,
-				'Unexpected Scanned-for device'
-			);
+			var expectedSerialNumber = device.savedAttributes.serialNumber;
+			var foundDeviceAgain = false;
+			var foundT7s = [];
+			deviceTypes[0].devices.forEach(function(t7Device) {
+				var sn = t7Device.serialNumber;
+				foundT7s.push(sn);
+
+				if(sn == expectedSerialNumber) {
+					foundDeviceAgain = true;
+				}
+			});
+
+			test.ok(foundDeviceAgain, 'We should have been able to find the connected device a second time.');
+			// var dA = deviceTypes[0].devices[0];
+			// test.strictEqual(
+			// 	dA.serialNumber,
+			// 	device.savedAttributes.serialNumber,
+			// 	'Unexpected Scanned-for device'
+			// );
 
 			test.ok(true, 'Successfully scanned for devices');
 			test.done();
