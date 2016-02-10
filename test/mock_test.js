@@ -1,7 +1,7 @@
 
 var rewire = require('rewire');
-// var device_scanner = require('../lib/ljswitchboard-device_scanner').getDeviceScanner();
 var device_scanner = rewire('../lib/device_scanner');
+var driver = require('LabJack-nodejs').driver();
 
 var test_util = require('./test_util');
 var printAvailableDeviceData = test_util.printAvailableDeviceData;
@@ -15,7 +15,7 @@ exports.tests = {
 		test.done();
 	},
 	'create device scanner': function(test) {
-		deviceScanner = new device_scanner.deviceScanner();
+		deviceScanner = new device_scanner.createDeviceScanner(driver);
 		test.done();
 	},
 	'disable device scanning': function(test) {

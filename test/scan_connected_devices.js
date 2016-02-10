@@ -1,7 +1,10 @@
+/**
+ * Tests for the legacy ListAll device scanner
+ */
 
 var rewire = require('rewire');
-// var device_scanner = require('../lib/ljswitchboard-device_scanner').getDeviceScanner();
 var device_scanner = rewire('../lib/device_scanner');
+
 var device_curator = require('ljswitchboard-ljm_device_curator');
 var ljm = require('labjack-nodejs');
 var driver = ljm.driver();
@@ -13,20 +16,10 @@ var testScanResults = test_util.testScanResults;
 var deviceScanner;
 var device;
 
-var GLOBAL_TEST_EXPECTED_DEVICE_LIST = false;
-var GLOBAL_EXPECTED_DEVICE_TYPES = {
-	'T7': {
-		'devices': [{
-			'connectionTypes': [{
-				'name': 'USB',
-				'insertionMethod': 'scan',
-			}, {
-				'name': 'WiFi',
-				'insertionMethod': 'attribute',
-			}]
-		}]
-	},
-};
+
+var GLOBAL_TEST_EXPECTED_DEVICE_LIST = true;
+var GLOBAL_EXPECTED_DEVICE_TYPES = require('./expected_devices').expectedDevices;
+
 
 exports.tests = {
 	'Starting Mock Test': function(test) {
@@ -35,80 +28,82 @@ exports.tests = {
 		test.done();
 	},
 	'create device scanner': function(test) {
-		deviceScanner = new device_scanner.deviceScanner();
+		deviceScanner = require(
+			'../lib/ljswitchboard-device_scanner'
+		).getDeviceScanner('device_scanner');
 		test.done();
 	},
-	// 'disable device scanning': function(test) {
-	// 	deviceScanner.disableDeviceScanning()
-	// 	.then(function() {
-	// 		test.done();
-	// 	});
-	// },
-	// 'Add mock devices': function(test) {
-	// 	deviceScanner.addMockDevices([
-	// 		{
-	// 			'deviceType': 'LJM_dtT7',
-	// 			'connectionType': 'LJM_ctETHERNET',
-	// 			'serialNumber': 1,
-	// 		},
-	// 		{
-	// 			'deviceType': 'LJM_dtT7',
-	// 			'connectionType': 'LJM_ctUSB',
-	// 			'serialNumber': 1,
-	// 		},
-	// 		{
-	// 			'deviceType': 'LJM_dtDIGIT',
-	// 			'connectionType': 'LJM_ctUSB'
-	// 		}
-	// 	])
-	// 	.then(function() {
-	// 		test.done();
-	// 	});
-	// },
-	// 'mock test': function(test) {
-	// 	var startTime = new Date();
+	'disable device scanning': function(test) {
+		deviceScanner.disableDeviceScanning()
+		.then(function() {
+			test.done();
+		});
+	},
+	'Add mock devices': function(test) {
+		deviceScanner.addMockDevices([
+			{
+				'deviceType': 'LJM_dtT7',
+				'connectionType': 'LJM_ctETHERNET',
+				'serialNumber': 1,
+			},
+			{
+				'deviceType': 'LJM_dtT7',
+				'connectionType': 'LJM_ctUSB',
+				'serialNumber': 1,
+			},
+			{
+				'deviceType': 'LJM_dtDIGIT',
+				'connectionType': 'LJM_ctUSB'
+			}
+		])
+		.then(function() {
+			test.done();
+		});
+	},
+	'mock test': function(test) {
+		var startTime = new Date();
 		
-	// 	var expectedData = {
-	// 		'T7': {
-	// 			'devices': [{
-	// 				'connectionTypes': [{
-	// 					'name': 'USB',
-	// 					'insertionMethod': 'scan',
-	// 				}, {
-	// 					'name': 'Ethernet',
-	// 					'insertionMethod': 'scan',
-	// 				}, {
-	// 					'name': 'WiFi',
-	// 					'insertionMethod': 'attribute'
-	// 				}]
-	// 			}]
-	// 		},
-	// 		'Digit': {
-	// 			'devices': [{
-	// 				'connectionTypes': [{
-	// 					'name': 'USB',
-	// 					'insertionMethod': 'scan',
-	// 				}]
-	// 			}]
-	// 		},
-	// 	};
+		var expectedData = {
+			'T7': {
+				'devices': [{
+					'connectionTypes': [{
+						'name': 'USB',
+						'insertionMethod': 'scan',
+					}, {
+						'name': 'Ethernet',
+						'insertionMethod': 'scan',
+					}, {
+						'name': 'WiFi',
+						'insertionMethod': 'attribute'
+					}]
+				}]
+			},
+			'Digit': {
+				'devices': [{
+					'connectionTypes': [{
+						'name': 'USB',
+						'insertionMethod': 'scan',
+					}]
+				}]
+			},
+		};
 
-	// 	deviceScanner.findAllDevices()
-	// 	.then(function(deviceTypes) {
-	// 		var endTime = new Date();
-	// 		var debug = false;
+		deviceScanner.findAllDevices()
+		.then(function(deviceTypes) {
+			var endTime = new Date();
+			var debug = false;
 
-	// 		testScanResults(deviceTypes, expectedData, test, {'debug': false});
+			testScanResults(deviceTypes, expectedData, test, {'debug': false});
 			
-	// 		if(debug) {
-	// 			console.log('  - Duration', (endTime - startTime)/1000);
-	// 		}
-	// 		test.done();
-	// 	}, function(err) {
-	// 		console.log('Scanning Error', err);
-	// 		test.done();
-	// 	});
-	// },
+			if(debug) {
+				console.log('  - Duration', (endTime - startTime)/1000);
+			}
+			test.done();
+		}, function(err) {
+			console.log('Scanning Error', err);
+			test.done();
+		});
+	},
 	'Enable device scanning': function(test) {
 		deviceScanner.enableDeviceScanning()
 		.then(function() {
