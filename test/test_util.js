@@ -66,11 +66,9 @@ var innerTestScanResults = function(deviceTypes, expDeviceTypes, test, options) 
 	} else {
 		if(numDeviceTypes != numExpDeviceTypes) {
 			suppressTestingErrors = true;
-			console.log(
-				'Warning, unexpected number of device types',
-				numDeviceTypes,
-				numExpDeviceTypes
-			);
+			console.log('Warning, unexpected number of device types');
+			console.log('    Expected number:', numExpDeviceTypes);
+			console.log('    Actual Number:', numDeviceTypes);
 		}
 	}
 
@@ -104,11 +102,21 @@ var innerTestScanResults = function(deviceTypes, expDeviceTypes, test, options) 
 		} else {
 			if(numDevices != expNumDevices) {
 				suppressTestingErrors = true;
-				console.log(
-					'Warning, unexpected number of devices',
-					numDevices,
-					expNumDevices
-				);
+				console.log('Warning, unexpected number of devices:');
+				console.log('    Expected number:', expNumDevices);
+				console.log('    Actual Number:', numDevices);
+				console.log('List of Found Devices:');
+				devices.forEach(function(device) {
+					console.log('  Device Type', device.deviceTypeName, device.serialNumber);
+					device.connectionTypes.forEach(function(connectionType) {
+						console.log(
+							'    Connection Type Name',
+							connectionType.name,
+							'method:',
+							connectionType.insertionMethod
+						);
+					});
+				});
 			}
 		}
 
@@ -166,6 +174,7 @@ var innerTestScanResults = function(deviceTypes, expDeviceTypes, test, options) 
 				});
 			}
 			else {
+				console.log('For Device...', device.deviceTypeName, device.serialNumber);
 				console.log(
 					'Unexpected number of connection types, expected: ',
 					expConnectionTypes.length,

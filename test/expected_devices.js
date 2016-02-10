@@ -5,23 +5,30 @@ exports.expectedDevices = {
                 'name': 'USB',
                 'insertionMethod': 'scan',
             },
-            // {
-            //     'name': 'WiFi',
-            //     'insertionMethod': 'scan',
-            // }
+            {
+                'name': 'WiFi',
+                'insertionMethod': 'scan',
+            }
             ]
         },
-        // {
-        //     'connectionTypes': [{
-        //         'name': 'USB',
-        //         'insertionMethod': 'scan',
-        //     },
-        //     // {
-        //     //     'name': 'WiFi',
-        //     //     'insertionMethod': 'scan',
-        //     // }
-        //     ]
-        // }
+        {
+            'connectionTypes': [{
+                'name': 'Ethernet',
+                'insertionMethod': 'scan',
+            }
+            ]
+        },
+        {
+            'connectionTypes': [{
+                'name': 'Ethernet',
+                'insertionMethod': 'scan',
+            },
+            {
+                'name': 'WiFi',
+                'insertionMethod': 'scan',
+            }
+            ]
+        }
         ]
     },
     // 'Digit': {
