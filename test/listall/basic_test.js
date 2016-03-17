@@ -2,11 +2,11 @@
 
 var deviceScanner;
 
-var test_util = require('./test_util');
+var test_util = require('../utils/test_util');
 var printAvailableDeviceData = test_util.printAvailableDeviceData;
 var testScanResults = test_util.testScanResults;
 
-var expDeviceTypes = require('./expected_devices').expectedDevices;
+var expDeviceTypes = require('../utils/expected_devices').expectedDevices;
 
 exports.tests = {
 	'Starting Basic Test': function(test) {
@@ -14,7 +14,7 @@ exports.tests = {
 		console.log('*** Starting Basic (ListAll) Test ***');
 
 		deviceScanner = require(
-			'../lib/ljswitchboard-device_scanner'
+			'../../lib/ljswitchboard-device_scanner'
 		).getDeviceScanner('device_scanner');
 
 		test.done();
@@ -27,7 +27,7 @@ exports.tests = {
 			var endTime = new Date();
 			var testStatus = testScanResults(deviceTypes, expDeviceTypes, test, {'test': false, 'debug': false});
 			test.ok(testStatus, 'Unexpected test result');
-			console.log('Duration', (endTime - startTime)/1000);
+			console.log('  - Duration'.cyan, (endTime - startTime)/1000);
 			test.done();
 		}, function(err) {
 			console.log('Scanning Error');
