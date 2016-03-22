@@ -4,6 +4,7 @@ var deviceScanner;
 
 var test_util = require('../utils/test_util');
 var printAvailableDeviceData = test_util.printAvailableDeviceData;
+var printScanResultsData = test_util.printScanResultsData;
 var testScanResults = test_util.testScanResults;
 
 var expDeviceTypes = require('../utils/expected_devices').expectedDevices;
@@ -30,6 +31,8 @@ exports.tests = {
 		.then(function() {
 			test.done();
 		}, function() {
+			devices[0].destroy();
+			devices = [];
 			test.done();
 		});
 	},
@@ -38,6 +41,7 @@ exports.tests = {
 		var startTime = new Date();
 		deviceScanner.findAllDevices(devices)
 		.then(function(deviceTypes) {
+			printScanResultsData(deviceTypes);
 			var endTime = new Date();
 			// var testStatus = testScanResults(deviceTypes, expDeviceTypes, test, {'test': false, 'debug': false});
 			// test.ok(testStatus, 'Unexpected test result');
@@ -49,21 +53,29 @@ exports.tests = {
 		});
 	},
 	'read device AIN': function(test) {
-		devices[0].iRead('AIN0')
-		.then(function(res) {
-			console.log('  - AIN Res:'.green, res.val);
+		if(devices[0]) {
+			devices[0].iRead('AIN0')
+			.then(function(res) {
+				console.log('  - AIN Res:'.green, res.val);
+				test.done();
+			}, function(err) {
+				test.ok(false, 'Failed to read AIN0: ' + err.toString());
+				test.done();
+			});
+		} else {
 			test.done();
-		}, function(err) {
-			test.ok(false, 'Failed to read AIN0: ' + err.toString());
-			test.done();
-		});
+		}
 	},
 	'close device': function(test) {
-		devices[0].close()
-		.then(function() {
+		if(devices[0]) {
+			devices[0].close()
+			.then(function() {
+				test.done();
+			}, function() {
+				test.done();
+			});
+		} else {
 			test.done();
-		}, function() {
-			test.done();
-		});
+		}
 	},
 };
