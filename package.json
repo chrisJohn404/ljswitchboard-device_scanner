@@ -5,6 +5,8 @@
   "main": "./lib/ljswitchboard-device_scanner",
   "scripts": {
     "test": "node ./node_modules/nodeunit/bin/nodeunit ./test/test.js",
+    "test_openall": "node ./node_modules/nodeunit/bin/nodeunit ./test/test_openall.js",
+    "test_listall": "node ./node_modules/nodeunit/bin/nodeunit ./test/test_listall.js",
     "scan": "node ./scripts/scan_for_devices.js",
     "scan_with_listall": "node ./scripts/scan_with_listall.js",
     "scan_with_openall": "node ./scripts/scan_with_openall.js"

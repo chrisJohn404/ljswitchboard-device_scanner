@@ -48,6 +48,16 @@ exports.tests = {
 			test.done();
 		});
 	},
+	'read device AIN': function(test) {
+		devices[0].iRead('AIN0')
+		.then(function(res) {
+			console.log('  - AIN Res:'.green, res.val);
+			test.done();
+		}, function(err) {
+			test.ok(false, 'Failed to read AIN0: ' + err.toString());
+			test.done();
+		});
+	},
 	'close device': function(test) {
 		devices[0].close()
 		.then(function() {

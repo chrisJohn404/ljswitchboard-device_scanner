@@ -17,10 +17,10 @@ process.on('uncaughtException', function(err) {
 var testGroups = {
 	'get_ljm_version': true,
 	'listall': {
-		'basic_test': true,
+		'basic_test': false,
 	},
 	'openall': {
-		'basic_test': false,
+		'basic_test': true,
 	},
 };
 

@@ -1,3 +1,13 @@
+function printScanResultsData(deviceTypes) {
+	console.log('Device Types', deviceTypes);
+	// var keys = Object.keys(deviceTypes);
+	// console.log('Scan Result Keys', keys);
+	// keys.forEach(function(keys){
+
+	// });
+}
+exports.printScanResultsData = printScanResultsData;
+
 var printAvailableDeviceData = function(device) {
 	if(device.connectionTypes) {
 		console.log(
