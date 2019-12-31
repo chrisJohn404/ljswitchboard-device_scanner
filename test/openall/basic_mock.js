@@ -136,11 +136,11 @@ exports.tests = {
 		deviceScanner.findAllDevices()
 		.then(function(deviceTypes) {
 			// console.log('Device Type information:', deviceTypes);
-			var outStr = JSON.stringify(deviceTypes, null, 4);
-			fs = require('fs');
-			path = require('path');
-			var fp = path.join(process.cwd(), 'scan_data.json');
-			fs.writeFileSync(fp, outStr);
+			// var outStr = JSON.stringify(deviceTypes, null, 4);
+			// fs = require('fs');
+			// path = require('path');
+			// var fp = path.join(process.cwd(), 'scan_data.json');
+			// fs.writeFileSync(fp, outStr);
 
 			// console.log('Manual Debug Results', deviceTypes);
 			// deviceTypes.forEach(function(deviceType) {
